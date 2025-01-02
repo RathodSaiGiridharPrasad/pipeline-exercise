@@ -18,4 +18,5 @@ jobs:
 
     - name: Increment version
       run: |
+        chmod +x ./increment_version.sh
         ./increment_version.sh app-frontend-tests-test ${{ github.head_ref }} ${{ github.sha }}
