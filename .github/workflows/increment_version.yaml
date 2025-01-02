@@ -1,21 +1,24 @@
-name: Increment Version on Merge to Staging
- 
+name: Increment Version on Merge to Staging or Push to Staging
+
 on:
   pull_request:
     types:
       - closed
     branches:
       - staging
- 
+  push:
+    branches:
+      - staging
+
 jobs:
   increment-version:
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'dev' }}
+    if: ${{ (github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'dev') || (github.event_name == 'push' && github.event.ref == 'refs/heads/dev') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
- 
+
       - name: Increment Version
         run: |
           # Your script to increment the version here
-          echo "Incrementing version for PR merged from 'dev' to 'staging'"
+          echo "Incrementing version for push or PR merged from 'dev' to 'staging'"
