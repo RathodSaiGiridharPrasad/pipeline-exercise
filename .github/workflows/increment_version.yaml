@@ -19,3 +19,7 @@ jobs:
         run: |
           # Your script to increment the version here
           echo "Incrementing version for push or PR merged from 'dev' to 'staging'"
+
+      - name: Echo Current branch
+        run: |
+          echo "Current branch: ${{ github.ref }}"
