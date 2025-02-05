@@ -1,0 +1,22 @@
+name: CI/CD using Self-Hosted Runner
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: self-hosted
+    environment: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set Environment Variables
+        env:
+          RUNNER_TOKEN: ${{ secrets.TOKEN_SECRET }}
+        run: echo "Environment variable RUNNER_TOKEN set"
+
+      - name: Run Build
+        run: echo "Running build on self-hosted runner!"
