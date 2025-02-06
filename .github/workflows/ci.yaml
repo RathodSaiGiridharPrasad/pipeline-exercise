@@ -1,4 +1,4 @@
-name: CI/CD using Self-Hosted Runner
+name: CI/CD using Container Job
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: test
     steps:
       - name: Checkout code
@@ -18,7 +18,12 @@ jobs:
           RUNNER_TOKEN: ${{ secrets.TOKEN_SECRET }}
         run: echo "Environment variable RUNNER_TOKEN set"
 
-      - name: Run Build
-        run: echo "Running build on self-hosted runner!"
-
-        
+      - name: Deploy CI Container Job to Azure
+        run: |
+          az containerapp job create \
+            --name ci-job \
+            --resource-group altiushub-test \
+            --environment Self-Hosted-Runner \
+            --image altiushub.azurecr.io/container-ci-job:latest \
+            --max-executions 1 \
+            --env-vars GITHUB_REPO=https://github.com/RathodSaiGiridharPrasad/pipeline-exercise
