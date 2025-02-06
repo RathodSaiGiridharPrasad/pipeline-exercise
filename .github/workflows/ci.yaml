@@ -27,3 +27,5 @@ jobs:
             --image altiushub.azurecr.io/container-ci-job:latest \
             --max-executions 1 \
             --env-vars GITHUB_REPO=https://github.com/RathodSaiGiridharPrasad/pipeline-exercise
+
+            
