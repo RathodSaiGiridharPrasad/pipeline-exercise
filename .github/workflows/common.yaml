@@ -10,15 +10,20 @@ on:
       environment:
         required: true
         type: string
+      version:
+        required: true
+        type: string
 
 jobs:
-  common-task:
+  do-stuff:
     runs-on: ubuntu-latest
+    env:
+      SERVICE_NAME: ${{ inputs.service-name }}
+      ENVIRONMENT: ${{ inputs.environment }}
+      VERSION: ${{ inputs.version }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Print Inputs
+      - name: Print environment variables
         run: |
-          echo "Service: ${{ inputs.service-name }}"
-          echo "Environment: ${{ inputs.environment }}"
+          echo "Service: $SERVICE_NAME"
+          echo "Environment: $ENVIRONMENT"
+          echo "Version: $VERSION"

@@ -12,3 +12,4 @@ jobs:
     with:
       service-name: l4-backend
       environment: dev
+      version: "1.0.0"
