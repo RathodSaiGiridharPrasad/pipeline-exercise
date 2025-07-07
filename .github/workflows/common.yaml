@@ -1,0 +1,24 @@
+# .github/workflows/common.yml
+name: Common Workflow
+
+on:
+  workflow_call:
+    inputs:
+      service-name:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+
+jobs:
+  common-task:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print Inputs
+        run: |
+          echo "Service: ${{ inputs.service-name }}"
+          echo "Environment: ${{ inputs.environment }}"
