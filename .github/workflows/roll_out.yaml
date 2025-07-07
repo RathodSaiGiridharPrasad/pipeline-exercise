@@ -1,0 +1,75 @@
+name: App Orchestration Rollout
+
+on:
+  workflow_dispatch:
+    # inputs:
+    #   version:
+    #     description: "Global version tag"
+    #     required: true
+    #     default: "1.0.1"
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  VERSION: 1.0.2
+
+jobs:
+  rollout:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Orchestration Repo
+      uses: actions/checkout@v4
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v3
+
+    - name: Set Environment Variables
+      run: |
+        echo "Environment variable VERSION set to $VERSION"
+
+
+    # - name: Azure Login
+    #   uses: azure/login@v1
+    #   with:
+    #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
+    #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+    #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    # - name: Get AKS Credentials
+    #   run: az aks get-credentials --resource-group <rg> --name <aks-cluster> --overwrite-existing
+
+    # - name: Deploy App1 with VERSION env
+    #   run: |
+    #     echo "🚀 Deploying App1 with version $VERSION"
+    #     helm upgrade --install app1 ./charts/app1 \
+    #       --set image.tag=$VERSION \
+    #       --namespace app1-ns --create-namespace --wait
+
+    # - name: Verify App1 rollout
+    #   run: |
+    #     echo "🔍 Verifying App1 rollout"
+    #     kubectl rollout status deployment/app1-deployment -n app1-ns --timeout=300s
+
+    # - name: Deploy App2 with VERSION env
+    #   run: |
+    #     echo "🚀 Deploying App2 with version $VERSION"
+    #     helm upgrade --install app2 ./charts/app2 \
+    #       --set image.tag=$VERSION \
+    #       --namespace app2-ns --create-namespace --wait
+
+    # - name: Verify App2 rollout
+    #   run: |
+    #     echo "🔍 Verifying App2 rollout"
+    #     kubectl rollout status deployment/app2-deployment -n app2-ns --timeout=300s
+
+    # - name: Rollback App1 if App2 fails
+    #   if: failure()
+    #   run: |
+    #     echo "⚠️ App2 rollout failed. Rolling back App1 to previous revision."
+    #     helm rollback app1 0 -n app1-ns
