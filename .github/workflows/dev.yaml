@@ -7,7 +7,7 @@ on:
       - dev
 
 jobs:
-  call-common:
+  rollout-for-dev:
     uses: ./.github/workflows/common.yaml
     with:
       service-name: l4-backend
