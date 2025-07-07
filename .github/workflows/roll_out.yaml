@@ -31,7 +31,11 @@ jobs:
 
     - name: Set Environment Variable VERSION
       run: |
-        echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+        if [ -n "${{ github.event.inputs.version }}" ]; then
+          echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+        else
+          echo "VERSION=1.0.0" >> $GITHUB_ENV
+        fi
 
     - name: Show VERSION
       run: echo "Environment variable VERSION set to $VERSION"
